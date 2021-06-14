@@ -1,0 +1,401 @@
+{
+  "specversion": "0.2",
+  "type": "com.fis.deposits.monetary_transaction.1_0_0",
+  "source": "/tenants/2800/applications/DP_RDP/processes/RTDP_CHRGPRCS001_STEP-2800/sources/RTDP_CHRGPRCS001_STEP-2800/50b4ff69-1dc8-45c6-a22e-b7c213a74db9",
+  "id": "13dda1ce-9736-4978-8de9-3db40e8dcc64",
+  "time": "2020-11-05T16:47:28.939Z",
+  "data": {
+    "adtDtl": {
+      "evtNme": "monetary_transaction",
+      "ver": "1_0_0",
+      "msgUuid": "50b4ff69-1dc8-45c6-a22e-b7c213a74db9",
+      "srcId": "BATCH",
+      "applId": "DP_RDP",
+      "operTs": "2020-11-05T16:46:22.763Z",
+      "usrId": "T999999",
+      "deviceId": "RTDP_CHRGPRCS001_STEP-2800",
+      "busPrcs": "RTDP_CHRGPRCS001_STEP-2800",
+      "pubFeKey": {
+        "feId": "2800",
+        "sorFe": {
+          "sorFeId": "2800",
+          "sor": {
+            "prcsrNme": "FIS NextGen",
+            "applNme": "Deposits"
+          }
+        }
+      }
+    },
+    "mntryTxnKey": {
+      "arKey": {
+        "entprsArTyp": "Checking",
+        "arId": "2010404008",
+        "sor": {
+          "prcsrNme": "FIS NextGen",
+          "applNme": "Deposits"
+        }
+      },
+      "txnKey": {
+        "txnRefNbr": 9000034000200,
+        "pstId": 7000030000068
+      }
+    },
+    "mntryTxnDtl": {
+      "pstDtl": {
+        "pstCmmnData": {
+          "pstStdCde": "CreditInterest",
+          "origAmt": {
+            "amt": 36.89,
+            "crncyCde": "EUR"
+          },
+          "pstAmt": {
+            "amt": 36.89,
+            "crncyCde": "EUR"
+          },
+          "pstEffDte": "2020-09-24",
+          "pstEffTme": "00:00:00",
+          "pstIntrstValDte": "2020-09-25",
+          "pstAddtlRmrk": [],
+          "pstAdtnlDtl": [
+            {
+              "pstAdtnlDtlTyp": "ChargeInstructionType",
+              "pstAdtnlDtlVal": "Accruing"
+            },
+            {
+              "pstAdtnlDtlTyp": "IsTransactionScheduled",
+              "pstAdtnlDtlVal": "false"
+            },
+            {
+              "pstAdtnlDtlTyp": "IsRecurringTransaction",
+              "pstAdtnlDtlVal": "false"
+            },
+            {
+              "pstAdtnlDtlTyp": "creditExptReportFlag",
+              "pstAdtnlDtlVal": "false"
+            },
+            {
+              "pstAdtnlDtlTyp": "pstgOutOverdfraft",
+              "pstAdtnlDtlVal": "false"
+            },
+            {
+              "pstAdtnlDtlTyp": "CashInvolvedPosting",
+              "pstAdtnlDtlVal": "false"
+            },
+            {
+              "pstAdtnlDtlTyp": "PostingBookingDate",
+              "pstAdtnlDtlVal": "2020-09-24"
+            },
+            {
+              "pstAdtnlDtlTyp": "PostingAccountingBaseAmount",
+              "pstAdtnlDtlVal": "36.89"
+            },
+            {
+              "pstAdtnlDtlTyp": "CurrencyinISO4217",
+              "pstAdtnlDtlVal": "EUR"
+            },
+            {
+              "pstAdtnlDtlTyp": "PostingStandardClassification",
+              "pstAdtnlDtlVal": "External"
+            },
+            {
+              "pstAdtnlDtlTyp": "NetAmountAfterPosting",
+              "pstAdtnlDtlVal": "90036.89"
+            },
+            {
+              "pstAdtnlDtlTyp": "ChargeInstructionCode",
+              "pstAdtnlDtlVal": "Accruing"
+            },
+            {
+              "pstAdtnlDtlTyp": "GLSystemName",
+              "pstAdtnlDtlVal": "GL System 1"
+            },
+            {
+              "pstAdtnlDtlTyp": "GLAccountName",
+              "pstAdtnlDtlVal": "Ledger Balance"
+            },
+            {
+              "pstAdtnlDtlTyp": "GLAccountClassification",
+              "pstAdtnlDtlVal": "Liability"
+            },
+            {
+              "pstAdtnlDtlTyp": "BalanceType",
+              "pstAdtnlDtlVal": "LedgerBalance"
+            },
+            {
+              "pstAdtnlDtlTyp": "FinancialOperationType",
+              "pstAdtnlDtlVal": "InterestCapitalization"
+            },
+            {
+              "pstAdtnlDtlTyp": "ReversalPosting",
+              "pstAdtnlDtlVal": "false"
+            },
+            {
+              "pstAdtnlDtlTyp": "AccountingDate",
+              "pstAdtnlDtlVal": "2020-09-24"
+            },
+            {
+              "pstAdtnlDtlTyp": "AccountingPeriod",
+              "pstAdtnlDtlVal": "092020"
+            },
+            {
+              "pstAdtnlDtlTyp": "ArrangementClassificationCode",
+              "pstAdtnlDtlVal": "External"
+            },
+            {
+              "pstAdtnlDtlTyp": "GLSystemName",
+              "pstAdtnlDtlVal": "GL System 1"
+            },
+            {
+              "pstAdtnlDtlTyp": "GLAccountName",
+              "pstAdtnlDtlVal": "Interest Payable"
+            },
+            {
+              "pstAdtnlDtlTyp": "GLAccountClassification",
+              "pstAdtnlDtlVal": "Liability"
+            },
+            {
+              "pstAdtnlDtlTyp": "BalanceType",
+              "pstAdtnlDtlVal": "InterestAccruedBalance"
+            },
+            {
+              "pstAdtnlDtlTyp": "FinancialOperationType",
+              "pstAdtnlDtlVal": "InterestCapitalization"
+            },
+            {
+              "pstAdtnlDtlTyp": "ReversalPosting",
+              "pstAdtnlDtlVal": "false"
+            },
+            {
+              "pstAdtnlDtlTyp": "AccountingDate",
+              "pstAdtnlDtlVal": "2020-09-24"
+            },
+            {
+              "pstAdtnlDtlTyp": "AccountingPeriod",
+              "pstAdtnlDtlVal": "092020"
+            },
+            {
+              "pstAdtnlDtlTyp": "ArrangementClassificationCode",
+              "pstAdtnlDtlVal": "External"
+            },
+            {
+              "pstAdtnlDtlTyp": "PstTxtLangRlt",
+              "pstAdtnlDtlVal": "110000000138"
+            }
+          ]
+        },
+        "pstFeeDtl": [
+          {
+            "feeId": {
+              "chrgInstCde": "Accruing"
+            },
+            "chrgTyp": "CreditInterest"
+          }
+        ]
+      },
+      "chrgBscDefDtl": {
+        "chrgSchedCde": "VINSAVCAPCS",
+        "chrgSchedId": "999900002000156",
+        "chrgSchedNme": "VINSAVCAPCS",
+        "chrgInstCde": "VINSAVCAPCI",
+        "chrgInstId": "999900002000158",
+        "chrgInstNme": "VINSAVCAPCI",
+        "chrgTypCde": "CreditInterest"
+      },
+      "pubBalDtl": [
+        {
+          "balCde": "RunningBalance",
+          "balNme": "Running Balance",
+          "amt": {
+            "amt": 90036.89,
+            "crncyCde": "EUR"
+          },
+          "balTypCde": "RunningBalance",
+          "actgClassCde": "Liability",
+          "pmtTyp": "Credit",
+          "balChgAmt": {
+            "amt": 36.89,
+            "crncyCde": "EUR"
+          },
+          "effDte": "2020-09-24",
+          "effTme": "00:00:00"
+        },
+        {
+          "balCde": "LedgerBalance",
+          "balNme": "Ledger Balance",
+          "amt": {
+            "amt": 90036.89,
+            "crncyCde": "EUR"
+          },
+          "balTypCde": "LedgerBalance",
+          "actgClassCde": "Liability",
+          "pmtTyp": "Credit",
+          "balChgAmt": {
+            "amt": 36.89,
+            "crncyCde": "EUR"
+          },
+          "effDte": "2020-09-24",
+          "effTme": "00:00:00"
+        },
+        {
+          "balCde": "CombinedBalance",
+          "balNme": "Combined Balance",
+          "amt": {
+            "amt": 90036.89,
+            "crncyCde": "EUR"
+          },
+          "balTypCde": "CombinedBalance",
+          "actgClassCde": "Liability",
+          "pmtTyp": "Credit",
+          "balChgAmt": {
+            "amt": 36.89,
+            "crncyCde": "EUR"
+          },
+          "effDte": "2020-09-24",
+          "effTme": "00:00:00"
+        },
+        {
+          "balCde": "InterestBasisLedgerBalance",
+          "balNme": "Interest Basis Ledger Balance",
+          "amt": {
+            "amt": 90000,
+            "crncyCde": "EUR"
+          },
+          "balTypCde": "InterestBasisLedgerBalance",
+          "actgClassCde": "Liability",
+          "pmtTyp": "Credit",
+          "balChgAmt": {
+            "amt": 36.89,
+            "crncyCde": "EUR"
+          },
+          "effDte": "2020-09-25",
+          "effTme": "00:00:00"
+        },
+        {
+          "balCde": "InterestAccruedBalance",
+          "balNme": "Interest Accrued Balance",
+          "amt": {
+            "amt": 0,
+            "crncyCde": "EUR"
+          },
+          "balTypCde": "InterestAccruedBalance",
+          "actgClassCde": "Expense",
+          "pmtTyp": "Credit",
+          "balChgAmt": {
+            "amt": -36.89,
+            "crncyCde": "EUR"
+          },
+          "effDte": "2020-09-24",
+          "effTme": "00:00:00"
+        },
+        {
+          "balCde": "InterestEarnedBalance",
+          "balNme": "Interest Earned Balance",
+          "amt": {
+            "amt": 36.89,
+            "crncyCde": "EUR"
+          },
+          "balTypCde": "InterestEarnedBalance",
+          "actgClassCde": "Liability",
+          "pmtTyp": "Credit",
+          "balChgAmt": {
+            "amt": 36.89,
+            "crncyCde": "EUR"
+          },
+          "effDte": "2020-09-24",
+          "effTme": "00:00:00"
+        },
+        {
+          "balCde": "InterestAvailableBalance",
+          "balNme": "Interest Available Balance",
+          "amt": {
+            "amt": 36.89,
+            "crncyCde": "EUR"
+          },
+          "balTypCde": "InterestAvailableBalance",
+          "actgClassCde": "Liability",
+          "pmtTyp": "Credit",
+          "balChgAmt": {
+            "amt": 36.89,
+            "crncyCde": "EUR"
+          },
+          "effDte": "2020-09-24",
+          "effTme": "00:00:00"
+        },
+        {
+          "balCde": "InterestPaidBalance",
+          "balNme": "Interest Paid Balance",
+          "amt": {
+            "amt": 36.89,
+            "crncyCde": "EUR"
+          },
+          "balTypCde": "InterestPaidBalance",
+          "actgClassCde": "Expense",
+          "pmtTyp": "Credit",
+          "balChgAmt": {
+            "amt": 36.89,
+            "crncyCde": "EUR"
+          },
+          "effDte": "2020-09-24",
+          "effTme": "00:00:00"
+        }
+      ],
+      "pubGlPstDtl": [
+        {
+          "glAcctNbr": "100000101",
+          "glSysCde": "100000000001",
+          "actgModelCde": "USGAAP",
+          "pmtTyp": "Credit",
+          "amt": {
+            "amt": 36.89,
+            "crncyCde": "EUR"
+          },
+          "actgDte": "2020-09-24",
+          "actgPrd": "092020",
+          "cstCntr": {
+            "cstCntrId": "C001"
+          }
+        },
+        {
+          "glAcctNbr": "400000101",
+          "glSysCde": "100000000001",
+          "actgModelCde": "USGAAP",
+          "pmtTyp": "Credit",
+          "amt": {
+            "amt": 36.89,
+            "crncyCde": "EUR"
+          },
+          "actgDte": "2020-09-24",
+          "actgPrd": "092020",
+          "cstCntr": {
+            "cstCntrId": "C001"
+          }
+        }
+      ],
+      "pubPstDtl": {
+        "pmtTyp": "Credit",
+        "busEvtDte": "2020-09-24",
+        "origOuId": "1000",
+        "custIndcInd": false,
+        "chnlSysId": "BATCH",
+        "pstDte": "2020-09-24",
+        "pstTs": "2020-09-24T16:47:28Z",
+        "srcPstRefNbr": 0,
+        "prcsMde": "btch",
+        "busEvtCde": "InterestTransfer"
+      },
+      "casaPstDtl": {}
+    },
+    "adtnlAdtDtl": {
+      "bkDte": "2020-09-24",
+      "hostTs": "2020-11-05T16:47:28.165421Z",
+      "acptTs": "2020-11-05T16:46:22.763Z",
+      "acptTsUtcOfst": "+00:00"
+    }
+  },
+  "com_fis_extension_correlationId": "50b4ff69-1dc8-45c6-a22e-b7c213a74db9",
+  "com_fis_extension_eventSubType": "CreditInterest",
+  "com_fis_extension_feId": "2800",
+  "com_fis_extension_userId": "T999999",
+  "com_fis_extension_locale": "en-US",
+  "com_fis_extension_applicationId": "DP_RDP"
+}

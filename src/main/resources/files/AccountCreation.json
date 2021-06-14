@@ -1,0 +1,194 @@
+{
+  "specversion": "0.2",
+  "type": "com.fis.deposits.td_account_open.1_0_0",
+  "source": "/tenants/2860/applications/DP_RDP/processes/DPTDCreateArrangement_v1.7.0/sources/DPTDCreateArrangement/8a3feafa-105f-406a-aac3-004305023e31",
+  "id": "1c437a32-2c34-4158-97b5-5005e9a3ffe3",
+  "time": "2021-02-09T06:00:02.052Z",
+  "data": {
+    "adtDtl": {
+      "evtNme": "td_account_open",
+      "ver": "1.0.0",
+      "msgUuid": "8a3feafa-105f-406a-aac3-004305023e31",
+      "srcId": "BackOffice",
+      "applId": "DP_RDP",
+      "operTs": "2021-02-09T05:59:56.017304Z",
+      "usrId": "T999999",
+      "deviceId": "10.7.196.8",
+      "busPrcs": "DPTDCreateArrangement_v1.7.0",
+      "pubFeKey": {
+        "feId": "2860",
+        "sorFe": {
+          "sorFeId": "2860",
+          "sor": {
+            "prcsrNme": "FIS NextGen",
+            "applNme": "Deposits"
+          }
+        }
+      }
+    },
+    "acctOpenKey": {
+      "entprsArTyp": "CertificateOfDeposit",
+      "arId": "000010893006",
+      "sor": {
+        "prcsrNme": "FIS NextGen",
+        "applNme": "Deposits"
+      }
+    },
+    "acctOpenDtl": {
+      "pubArBscDtl": {
+        "pubProdCtgrzn": {
+          "prodKey": "13TDPROD",
+          "prodLne": "RetailDeposit",
+          "prodGrp": "CD",
+          "prodSubGrp": "TermDeposit",
+          "prodTmpl": "TermDeposit",
+          "prodNme": "13TDPROD",
+          "prodElmtCatTyp": "External"
+        },
+        "acctTtl": [],
+        "nickNme": "NEWTD",
+        "brnchOuId": "1000",
+        "crncy": {
+          "cde": "EUR",
+          "nme": "European Euro"
+        },
+        "effDte": "2021-04-15",
+        "prmyStat": "Active",
+        "scndyStat": "InProcess",
+        "apprStat": "Approved",
+        "adtnlAcctDtl": []
+      },
+      "pubIpRole": [
+        {
+          "ipId": {
+            "ipId": "70000014728",
+            "sor": {
+              "prcsrNme": "FIS NextGen",
+              "applNme": "Deposits"
+            }
+          },
+          "pubArIpRlt": {
+            "strtDte": "2021-04-15",
+            "rltPrcntg": 100,
+            "rltCde": "Owner",
+            "rltDesc": "Owner",
+            "roleTyp": "Primary"
+          },
+          "adtnlDtl": []
+        }
+      ],
+      "pubArBusDtl": {
+        "pubTDArBusDtl": {
+          "acctOpenDte": "2021-04-15",
+          "classTyp": "Personal",
+          "acctOwnrshpCat": "Other"
+        },
+        "pubTDArAdtnlBusDtl": {
+          "cntrctAmt": {
+            "amt": 10000,
+            "crncyCde": "EUR",
+            "dte": "2021-04-15"
+          },
+          "pubTDArChrgDtl": {
+            "arChrgSchedDtl": []
+          },
+          "taxDefDtl": {
+            "cde": "SolidaritySurchargeTaxDefn",
+            "nme": "Solidarity Surcharge Tax",
+            "rte": 5.5
+          },
+          "matDtl": {
+            "matTermDtl": {
+              "matTerm": {
+                "termTyp": "DAYS",
+                "val": 5
+              },
+              "matDte": "2021-04-20"
+            },
+            "matPrcsOpt": "SAME_DAY",
+            "rnwDtl": {
+              "rnwOpt": {
+                "autoRnwInd": true,
+                "rnwPrdOpt": "RENEW_AT_MATURITY",
+                "rnwlIntOpt": "SAME_BASE_RATE",
+                "rnwlAmtOpt": "PRINCIPAL_AND_AVAILABLE_INTEREST",
+                "rnwlDurOpt": {
+                  "rnwDiffDurInd": false
+                }
+              }
+            },
+            "prinDist": "AutomaticRenewal",
+            "grcDtl": {
+              "grcOpt": {
+                "grcDur": {
+                  "typ": "Days",
+                  "val": 0
+                },
+                "grcIntOpt": "NO_ACCRUAL"
+              },
+              "grcPrdInd": false
+            }
+          },
+          "arToArRlt": [],
+          "intDtl": {
+            "accruIntOpnDpMet": true,
+            "intOpt": {
+              "intDispMde": "Redeposit",
+              "intPmtFreq": {
+                "frqType": "END_OF_EVERY_MONTH"
+              }
+            }
+          },
+          "stepUpRteDtl": {},
+          "adtnlDtl": [
+            {
+              "typ": "MarketLinkedCD",
+              "val": "NO"
+            },
+            {
+              "typ": "IsDomesticAccount",
+              "val": "true"
+            },
+            {
+              "typ": "ScheduleSettlementDate",
+              "val": "2021-04-15"
+            },
+            {
+              "typ": "UserDerivativeTxnAsHedge",
+              "val": "NO"
+            },
+            {
+              "typ": "IssuedAsCollateral",
+              "val": "NO"
+            },
+            {
+              "typ": "UnfundedAutoClosureDate",
+              "val": "2021-05-15"
+            },
+            {
+              "typ": "StepUpIndicator",
+              "val": "N"
+            },
+            {
+              "typ": "SecuredDeposit",
+              "val": "No"
+            }
+          ],
+          "rdmptnDtl": {
+            "alwWthdrwlOfAccrdIntInd": false,
+            "totNbrOfRdmptnAllw": 2,
+            "rdmptnAmtPrcntgOpt": []
+          }
+        },
+        "pubUSSpcfcArBusDtl": {
+          "usspcfcArAdtnlBusDtl": []
+        }
+      }
+    }
+  },
+  "com_fis_extension_correlationId": "8a3feafa-105f-406a-aac3-004305023e31",
+  "com_fis_extension_feId": "2860",
+  "com_fis_extension_userId": "T999999",
+  "com_fis_extension_locale": "en-US",
+  "com_fis_extension_applicationId": "DP_RDP"
+}

@@ -1,0 +1,46 @@
+{
+  "specversion": "0.2",
+  "type": "com.fis.customer.customer_tax_exemption_change.1_0_0",
+  "source": "/tenants/2800/applications/EC_CUST/processes/ECRecordIpTaxExemption/sources/BackOffice/0d3ef8f0-6154-11eb-8c6b-8518b795b56c",
+  "id": "bd3c963d-147e-4548-b01b-8a864d71dae2",
+  "time": "2021-01-28T10:31:59.34268Z",
+  "contenttype": "application/json",
+  "data": {
+    "adtDtl": {
+      "evtNme": "customer_tax_exemption_change",
+      "ver": "1_0_0",
+      "msgUuid": "0d3ef8f0-6154-11eb-8c6b-8518b795b56c",
+      "srcId": "BackOffice",
+      "applId": "EC_CUST",
+      "operTs": "2021-01-28T10:32:01.106372Z",
+      "usrId": "T999999",
+      "deviceId": "10.7.196.8",
+      "busPrcs": "ECRecordIpTaxExemption",
+      "pubFeKey": {
+        "feId": "2800",
+        "sorFe": []
+      }
+    },
+    "pubIpKey": {
+      "ecIpId": 70000000401,
+      "ipKey": []
+    },
+    "pubTaxExmp": {
+      "pubExmpMaint": [],
+      "pubTaxRsdncMaint": [
+        {
+          "actn": "DELETE",
+          "taxRsdnc": {
+            "cde": "DEU"
+          }
+        }
+      ]
+    }
+  },
+  "schemaurl": "https://eventbroker-schema-registry-epo-arch.sdlocpapp.fisdev.local/schemas/com/fis/customer/v5.7/com.fis.customer.customer_tax_exemption_change.1_0_0.jsd",
+  "com_fis_extension_correlationId": "0d3ef8f0-6154-11eb-8c6b-8518b795b56c",
+  "com_fis_extension_feId": "2800",
+  "com_fis_extension_userId": "T999999",
+  "com_fis_extension_locale": "en-US",
+  "com_fis_extension_applicationId": "EC_CUST"
+}
