@@ -1,0 +1,9 @@
+2021-06-16 00:20:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "STOCK_MONTHLY_SUMM" not found; SQL statement:
+insert into stock_monthly_summ (sms_close, sms_high, sms_low, sms_open, sms_volume, sms_stock_name, sms_month_end_date) values (?, ?, ?, ?, ?, ?, ?) [42102-200]
+2021-06-16 00:22:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "STOCK_MONTHLY_SUMM" not found; SQL statement:
+insert into stock_monthly_summ (sms_close, sms_high, sms_low, sms_open, sms_volume, sms_stock_name, sms_month_end_date) values (?, ?, ?, ?, ?, ?, ?) [42102-200]
+2021-06-16 00:25:08 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "STOCK_MONTHLY_SUMM" not found; SQL statement:
+insert into stock_monthly_summ (sms_close, sms_high, sms_low, sms_open, sms_volume, sms_stock_name, sms_month_end_date) values (?, ?, ?, ?, ?, ?, ?) [42102-200]

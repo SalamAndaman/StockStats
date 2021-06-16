@@ -8,10 +8,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.salam.entity.MetaData;
 import com.salam.entity.MonthlyData;
 
 @Repository
-public class MonthlyDataRepositoryImpl implements MonthlyDataRepository {
+public class StockMetaDataRepositoryImpl implements StockMetaDataRepository {
 
 //	public static final QMonthlyData qMonthlyData = QMonthlyData.monthlyData;
 
@@ -22,19 +23,17 @@ public class MonthlyDataRepositoryImpl implements MonthlyDataRepository {
 	private JPAQueryFactory factory;
 
 	@Autowired
-	public MonthlyDataRepositoryImpl(EntityManager em) {
+	public StockMetaDataRepositoryImpl(EntityManager em) {
 		this.em = em;
 		factory = new JPAQueryFactory(em);
 	}
 
 	@Override
 	@Transactional
-	public void insert(MonthlyData monthlyData) {
-
-		em.persist(monthlyData);
+	public void insert(MetaData metaData) {
+		em.persist(metaData);
 		em.flush();
 		em.clear();
-
 	}
 
 }

@@ -34,7 +34,8 @@ public class MetaData implements Serializable {
 	@Id
 	@Column(name = "SMD_DATA_TYPE_DESCR", nullable = false)
 	private String smdDataType;
-
+	
+	@Id
 	@Column(name = "SMD_LAST_UPDATED_DATE", nullable = false)
 	private LocalDate smdLastUpdated;
 

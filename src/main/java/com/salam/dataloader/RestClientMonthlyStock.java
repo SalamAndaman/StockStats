@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import com.salam.entity.MetaData;
 import com.salam.entity.MonthlyData;
 import com.salam.repository.MonthlyDataRepository;
+import com.salam.repository.StockMetaDataRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +31,9 @@ public class RestClientMonthlyStock {
 
 	@Autowired
 	private MonthlyDataRepository monthlyDataDao;
+
+	@Autowired
+	private StockMetaDataRepository stockMetaData;
 
 	public void loadMonthly() throws ClientProtocolException, IOException
 //				 throws ClientProtocolException, IOException
@@ -54,37 +58,53 @@ public class RestClientMonthlyStock {
 
 		JSONObject jsonObj = new JSONObject(sb.toString());
 
-		MetaData stockMetaData = getStockMeta(jsonObj);
-		System.out.println(stockMetaData);
+		MetaData newMetaData = getStockMeta(jsonObj);
+		System.out.println(newMetaData);
 
 		boolean keyPresent = jsonObj.has("Monthly Time Series");
 
 		if (keyPresent) {
-			if (jsonObj.get("Monthly Time Series") instanceof JSONObject) {
-				System.out.println("Monthly Time in JSON Object");
-				JSONObject dataObjList = (JSONObject) jsonObj.get("Monthly Time Series");
-				Iterator<?> keys = dataObjList.keys();
-				while (keys.hasNext()) {
-					String monthEndDate = (String) keys.next();
-					JSONObject jsonMonthlyObj = (JSONObject) dataObjList.get(monthEndDate);
-					Iterator<?> monthlyKeys = jsonMonthlyObj.keys();
-					Map<String, String> rowValue = new HashMap<>();
-					while (monthlyKeys.hasNext()) {
-						String keyDetail = (String) monthlyKeys.next();
-						String keyValue = (String) jsonMonthlyObj.get(keyDetail);
-						rowValue.put(keyDetail, keyValue);
-					}
-					extractDBrecord(stockMetaData, monthEndDate, rowValue);
+			long recCount = LoadDataToDB(jsonObj, newMetaData);
+			System.out.println("Record Count: " + recCount);
+			if (recCount > 0L) {
+				try {
+					stockMetaData.insert(newMetaData);
+				} catch (RuntimeException e) {
+//				System.out.println("Db exception:" + e.getMessage());
 				}
-
 			}
+
 		} else {
 			System.out.println("Key not present");
 		}
 
 	}
 
-	private void extractDBrecord(MetaData stockMetaData, String monthEndDate, Map<String, String> rowValue) {
+	private long LoadDataToDB(JSONObject jsonObj, MetaData newMetaData) {
+		long recordsInserted = 0L;
+		if (jsonObj.get("Monthly Time Series") instanceof JSONObject) {
+			System.out.println("Monthly Time in JSON Object");
+			JSONObject dataObjList = (JSONObject) jsonObj.get("Monthly Time Series");
+			Iterator<?> keys = dataObjList.keys();
+			while (keys.hasNext()) {
+				String monthEndDate = (String) keys.next();
+				JSONObject jsonMonthlyObj = (JSONObject) dataObjList.get(monthEndDate);
+				Iterator<?> monthlyKeys = jsonMonthlyObj.keys();
+				Map<String, String> rowValue = new HashMap<>();
+				while (monthlyKeys.hasNext()) {
+					String keyDetail = (String) monthlyKeys.next();
+					String keyValue = (String) jsonMonthlyObj.get(keyDetail);
+					rowValue.put(keyDetail, keyValue);
+				}
+				recordsInserted = recordsInserted + extractDBrecord(newMetaData, monthEndDate, rowValue);
+			}
+
+		}
+		return recordsInserted;
+	}
+
+	private long extractDBrecord(MetaData stockMetaData, String monthEndDate, Map<String, String> rowValue) {
+		long updated = 0L;
 		MonthlyData newDataRow = new MonthlyData();
 		newDataRow.setSmsMonthEndDate(LocalDate.parse(monthEndDate));
 		newDataRow.setSmsStockName(stockMetaData.getSmdStockName());
@@ -106,7 +126,15 @@ public class RestClientMonthlyStock {
 			}
 		}
 //		System.out.println(newDataRow);
-		monthlyDataDao.insert(newDataRow);
+		try {
+
+			monthlyDataDao.insert(newDataRow);
+			updated = 1L;
+		} catch (RuntimeException e) {
+
+//			System.out.println("Db exception:" + e.getMessage());
+		}
+		return updated;
 	}
 
 	private MetaData getStockMeta(JSONObject jsonObj) {
