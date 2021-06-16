@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.salam.dataloader.helper.PercentCalculator;
 import com.salam.entity.MetaData;
 import com.salam.entity.MonthlyData;
 import com.salam.repository.MonthlyDataRepository;
@@ -34,6 +35,9 @@ public class RestClientMonthlyStock {
 
 	@Autowired
 	private StockMetaDataRepository stockMetaData;
+	
+//	@Autowired
+//	private PercentCalculator percentCalc;
 
 	public void loadMonthly() throws ClientProtocolException, IOException
 //				 throws ClientProtocolException, IOException
@@ -64,7 +68,7 @@ public class RestClientMonthlyStock {
 		boolean keyPresent = jsonObj.has("Monthly Time Series");
 
 		if (keyPresent) {
-			long recCount = LoadDataToDB(jsonObj, newMetaData);
+			long recCount = loadDataToDB(jsonObj, newMetaData);
 			System.out.println("Record Count: " + recCount);
 			if (recCount > 0L) {
 				try {
@@ -80,8 +84,9 @@ public class RestClientMonthlyStock {
 
 	}
 
-	private long LoadDataToDB(JSONObject jsonObj, MetaData newMetaData) {
+	private long loadDataToDB(JSONObject jsonObj, MetaData newMetaData) {
 		long recordsInserted = 0L;
+		MonthlyData prevMonthly = null;
 		if (jsonObj.get("Monthly Time Series") instanceof JSONObject) {
 			System.out.println("Monthly Time in JSON Object");
 			JSONObject dataObjList = (JSONObject) jsonObj.get("Monthly Time Series");
@@ -96,15 +101,19 @@ public class RestClientMonthlyStock {
 					String keyValue = (String) jsonMonthlyObj.get(keyDetail);
 					rowValue.put(keyDetail, keyValue);
 				}
-				recordsInserted = recordsInserted + extractDBrecord(newMetaData, monthEndDate, rowValue);
+				MonthlyData currMonthly = extractDBrecord(newMetaData, monthEndDate, rowValue);
+//				percentCalc.updateMonthYTD(prevMonthly)
+				 prevMonthly = loadToDB(currMonthly);
+				 if (prevMonthly != null) {					
+					 recordsInserted = recordsInserted + 1L;
+				}
 			}
 
 		}
 		return recordsInserted;
 	}
 
-	private long extractDBrecord(MetaData stockMetaData, String monthEndDate, Map<String, String> rowValue) {
-		long updated = 0L;
+	private MonthlyData extractDBrecord(MetaData stockMetaData, String monthEndDate, Map<String, String> rowValue) {
 		MonthlyData newDataRow = new MonthlyData();
 		newDataRow.setSmsMonthEndDate(LocalDate.parse(monthEndDate));
 		newDataRow.setSmsStockName(stockMetaData.getSmdStockName());
@@ -125,16 +134,21 @@ public class RestClientMonthlyStock {
 				newDataRow.setSmsVolume(Long.parseLong(mapEntry.getValue()));
 			}
 		}
-//		System.out.println(newDataRow);
+
+		return newDataRow;
+	}
+
+
+	private MonthlyData loadToDB(MonthlyData newDataRow) {
 		try {
 
 			monthlyDataDao.insert(newDataRow);
-			updated = 1L;
+			return newDataRow;
 		} catch (RuntimeException e) {
 
 //			System.out.println("Db exception:" + e.getMessage());
 		}
-		return updated;
+		return null;
 	}
 
 	private MetaData getStockMeta(JSONObject jsonObj) {
