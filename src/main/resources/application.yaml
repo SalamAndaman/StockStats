@@ -23,3 +23,12 @@ spring:
         webAllowOthers: true
     console:
       enabled: true
+      
+stockprops: 
+  stocknames:
+    - SBIN
+#    - RELIANCE
+  stocksourceapi:
+    - TIME_SERIES_MONTHLY
+    - TIME_SERIES_DAILY
+    - TIME_SERIES_WEEKLY

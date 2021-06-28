@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.salam.entity.MetaData;
-import com.salam.entity.MonthlyData;
 
 @Repository
 public class StockMetaDataRepositoryImpl implements StockMetaDataRepository {

@@ -37,6 +37,10 @@ public class MonthlyData implements Serializable {
 	private String smsStockName;
 	
 	@Id
+	@Column(name = "SMS_DATA_SOURCE", nullable = false)
+	private String smsStockSource;
+	
+	@Id
 	@Column(name = "SMS_MONTH_END_DATE", nullable = false)
 	private LocalDate smsMonthEndDate;
 
@@ -54,11 +58,5 @@ public class MonthlyData implements Serializable {
 
 	@Column(name = "SMS_VOLUME")
 	private Long smsVolume;
-	
-	@Column(name = "SMS_MONTHLY_CHANGE")
-	private Long smsMonthlyChange;
-	
-	@Column(name = "SMS_CHANGE_YTD")
-	private Long smsChangeYtd;
 
 }

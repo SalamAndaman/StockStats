@@ -16,6 +16,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.salam.dataloader.helper.PercentCalculator;
@@ -36,17 +37,15 @@ public class RestClientMonthlyStock {
 	@Autowired
 	private StockMetaDataRepository stockMetaData;
 	
-//	@Autowired
-//	private PercentCalculator percentCalc;
+	@Autowired
+	private PercentCalculator percentCalc;
 
-	public void loadMonthly() throws ClientProtocolException, IOException
-//				 throws ClientProtocolException, IOException
-	{
-		System.out.println("Hi Salam");
+	public void loadMonthly(String stockName, String sourceapi) throws ClientProtocolException, IOException
+	{	
 
 		HttpClient client = new DefaultHttpClient();
 		HttpGet request = new HttpGet(
-				"https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=BSE:RELIANCE&apikey=WF4YO1WAOZY8BJD5");
+				"https://www.alphavantage.co/query?function="+sourceapi+"&symbol=BSE:"+stockName+"&apikey=WF4YO1WAOZY8BJD5");
 		HttpResponse response = client.execute(request);
 
 		BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
@@ -57,18 +56,17 @@ public class RestClientMonthlyStock {
 			sb.append(line);
 //			System.out.println(line);
 		}
-		System.out.println("Salam" + sb.toString().length());
-		System.out.println("the end");
 
 		JSONObject jsonObj = new JSONObject(sb.toString());
 
 		MetaData newMetaData = getStockMeta(jsonObj);
-		System.out.println(newMetaData);
+		
+		String dataKeyname = getDataKey(sourceapi);
 
-		boolean keyPresent = jsonObj.has("Monthly Time Series");
+		boolean keyPresent = jsonObj.has(dataKeyname);
 
 		if (keyPresent) {
-			long recCount = loadDataToDB(jsonObj, newMetaData);
+			long recCount = loadDataToDB(jsonObj, newMetaData,dataKeyname);
 			System.out.println("Record Count: " + recCount);
 			if (recCount > 0L) {
 				try {
@@ -79,17 +77,31 @@ public class RestClientMonthlyStock {
 			}
 
 		} else {
-			System.out.println("Key not present");
+			System.out.println("Key not present "+dataKeyname);
 		}
 
 	}
 
-	private long loadDataToDB(JSONObject jsonObj, MetaData newMetaData) {
+	private String getDataKey(String sourceapi) {
+		// TODO Auto-generated method stub
+		if (sourceapi.equalsIgnoreCase("TIME_SERIES_MONTHLY")) {
+			return "Monthly Time Series";
+		}
+		if (sourceapi.equalsIgnoreCase("TIME_SERIES_WEEKLY")) {
+			return "Weekly Time Series";
+		}
+		if (sourceapi.equalsIgnoreCase("TIME_SERIES_DAILY")) {
+			return "Daily Time Series";
+		}
+		return null;
+	}
+
+	private long loadDataToDB(JSONObject jsonObj, MetaData newMetaData, String dataKeyname) {
 		long recordsInserted = 0L;
 		MonthlyData prevMonthly = null;
-		if (jsonObj.get("Monthly Time Series") instanceof JSONObject) {
+		if (jsonObj.get(dataKeyname) instanceof JSONObject) {
 			System.out.println("Monthly Time in JSON Object");
-			JSONObject dataObjList = (JSONObject) jsonObj.get("Monthly Time Series");
+			JSONObject dataObjList = (JSONObject) jsonObj.get(dataKeyname);
 			Iterator<?> keys = dataObjList.keys();
 			while (keys.hasNext()) {
 				String monthEndDate = (String) keys.next();
@@ -102,7 +114,8 @@ public class RestClientMonthlyStock {
 					rowValue.put(keyDetail, keyValue);
 				}
 				MonthlyData currMonthly = extractDBrecord(newMetaData, monthEndDate, rowValue);
-//				percentCalc.updateMonthYTD(prevMonthly)
+				currMonthly.setSmsStockSource(dataKeyname);
+				percentCalc.updateMonthYTD(prevMonthly,currMonthly);
 				 prevMonthly = loadToDB(currMonthly);
 				 if (prevMonthly != null) {					
 					 recordsInserted = recordsInserted + 1L;
