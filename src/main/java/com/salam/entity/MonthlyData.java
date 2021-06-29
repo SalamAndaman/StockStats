@@ -26,11 +26,7 @@ public class MonthlyData implements Serializable {
 	 */
 	private static final long serialVersionUID = 6946508724652640194L;
 
-	@Override
-	public String toString() {
-		return "MonthlyData [monthEndDate=" + smsMonthEndDate + ", smsOpen=" + smsOpen + ", smsHigh=" + smsHigh
-				+ ", smsLow=" + smsLow + ", smsClose=" + smsClose + ", smsVolume=" + smsVolume + "]";
-	}
+
 
 	@Id
 	@Column(name = "SMS_STOCK_NAME", nullable = false)
@@ -58,5 +54,12 @@ public class MonthlyData implements Serializable {
 
 	@Column(name = "SMS_VOLUME")
 	private Long smsVolume;
+
+	@Override
+	public String toString() {
+		return "MonthlyData [smsStockName=" + smsStockName + ", smsStockSource=" + smsStockSource + ", smsMonthEndDate="
+				+ smsMonthEndDate + ", smsOpen=" + smsOpen + ", smsHigh=" + smsHigh + ", smsLow=" + smsLow
+				+ ", smsClose=" + smsClose + ", smsVolume=" + smsVolume + "]";
+	}
 
 }

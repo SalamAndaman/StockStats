@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.salam.apis.mothly.MonthlyGrowthStats;
 import com.salam.dataloader.RestClientMonthlyStock;
 import com.salam.util.InputProperties;
 
@@ -27,6 +28,8 @@ public class KafkaClientControllerV1 {
 //	@Autowired
 	private final RestClientMonthlyStock stockMonthlyStats;
 
+	private final MonthlyGrowthStats monthlyGrowthStats;
+
 	private final InputProperties stockPropertiesYml;
 
 	@GetMapping("/monthlystats")
@@ -36,26 +39,24 @@ public class KafkaClientControllerV1 {
 		for (String sourceapi : stockPropertiesYml.getStocksourceapi()) {
 //			stockMonthlyStats.loadMonthly(stockName);
 			for (String stockName : stockPropertiesYml.getStocknames()) {
-				System.out.println("api name " + sourceapi +" stock " + stockName);
+				System.out.println("api name " + sourceapi + " stock " + stockName);
 				stockMonthlyStats.loadMonthly(stockName, sourceapi);
 			}
 		}
-		
+
 		System.out.println("Data Loaded!");
 	}
-	
+
 	@GetMapping("/monthlygrowth")
 	public void monthlygrowth() throws ClientProtocolException, IOException {
 //		System.out.println("Hi Salam :" + stockPropertiesYml.getStockNames());
 
-		for (String sourceapi : stockPropertiesYml.getStocksourceapi()) {
-//			stockMonthlyStats.loadMonthly(stockName);
-			for (String stockName : stockPropertiesYml.getStocknames()) {
-				System.out.println("Mothly Growth " + sourceapi +" stock " + stockName);
-//				stockMonthlyStats.loadMonthly(stockName, sourceapi);
-			}
+		for (String stockName : stockPropertiesYml.getStocknames()) {
+			String[] arrOfStr = stockName.split("/", 2);
+			String stockSource = "Monthly Time Series";
+			monthlyGrowthStats.getMonthlyGrowth(arrOfStr[0],stockSource,1);
 		}
-		
+
 		System.out.println("Data Loaded!");
 	}
 }

@@ -16,10 +16,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.salam.dataloader.helper.PercentCalculator;
 import com.salam.entity.MetaData;
 import com.salam.entity.MonthlyData;
 import com.salam.repository.MonthlyDataRepository;
@@ -36,16 +34,53 @@ public class RestClientMonthlyStock {
 
 	@Autowired
 	private StockMetaDataRepository stockMetaData;
-	
-	@Autowired
-	private PercentCalculator percentCalc;
 
-	public void loadMonthly(String stockName, String sourceapi) throws ClientProtocolException, IOException
-	{	
+	public void loadMonthly(String stockName, String sourceapi) throws ClientProtocolException, IOException {
+		String[] arrOfStr = stockName.split("/", 2);
+		stockName = arrOfStr[0];
+		JSONObject jsonObj = extracted(arrOfStr[0], sourceapi);
+		System.out.println("Stock1" + arrOfStr[0]);
 
+		MetaData newMetaData = getStockMeta(jsonObj);
+		if (newMetaData == null) {
+			System.out.println("Not found - trying again");
+			if (arrOfStr.length > 1) {
+				jsonObj = extracted(arrOfStr[1], sourceapi);
+				System.out.println("Stock2" + stockName);
+
+				newMetaData = getStockMeta(jsonObj);
+				if (newMetaData != null) {
+					newMetaData.setSmdStockName(stockName);
+				}
+			}
+		}
+
+		String dataKeyname = getDataKey(sourceapi);
+
+		boolean keyPresent = jsonObj.has(dataKeyname);
+
+		if (keyPresent) {
+			long recCount = loadDataToDB(jsonObj, newMetaData, dataKeyname);
+			System.out.println("Record Count: " + recCount);
+			if (recCount > 0L) {
+				try {
+					System.out.println("Inserting Meta Data"+newMetaData);
+					stockMetaData.insert(newMetaData);
+				} catch (RuntimeException e) {
+//				System.out.println("Db exception:" + e.getMessage());
+				}
+			}
+
+		} else {
+			System.out.println("Key not present " + dataKeyname);
+		}
+
+	}
+
+	private JSONObject extracted(String stockName, String sourceapi) throws IOException, ClientProtocolException {
 		HttpClient client = new DefaultHttpClient();
-		HttpGet request = new HttpGet(
-				"https://www.alphavantage.co/query?function="+sourceapi+"&symbol=BSE:"+stockName+"&apikey=WF4YO1WAOZY8BJD5");
+		HttpGet request = new HttpGet("https://www.alphavantage.co/query?function=" + sourceapi + "&symbol=BSE:"
+				+ stockName + "&apikey=WF4YO1WAOZY8BJD5");
 		HttpResponse response = client.execute(request);
 
 		BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
@@ -58,28 +93,7 @@ public class RestClientMonthlyStock {
 		}
 
 		JSONObject jsonObj = new JSONObject(sb.toString());
-
-		MetaData newMetaData = getStockMeta(jsonObj);
-		
-		String dataKeyname = getDataKey(sourceapi);
-
-		boolean keyPresent = jsonObj.has(dataKeyname);
-
-		if (keyPresent) {
-			long recCount = loadDataToDB(jsonObj, newMetaData,dataKeyname);
-			System.out.println("Record Count: " + recCount);
-			if (recCount > 0L) {
-				try {
-					stockMetaData.insert(newMetaData);
-				} catch (RuntimeException e) {
-//				System.out.println("Db exception:" + e.getMessage());
-				}
-			}
-
-		} else {
-			System.out.println("Key not present "+dataKeyname);
-		}
-
+		return jsonObj;
 	}
 
 	private String getDataKey(String sourceapi) {
@@ -115,10 +129,10 @@ public class RestClientMonthlyStock {
 				}
 				MonthlyData currMonthly = extractDBrecord(newMetaData, monthEndDate, rowValue);
 				currMonthly.setSmsStockSource(dataKeyname);
-				percentCalc.updateMonthYTD(prevMonthly,currMonthly);
-				 prevMonthly = loadToDB(currMonthly);
-				 if (prevMonthly != null) {					
-					 recordsInserted = recordsInserted + 1L;
+//				percentCalc.updateMonthYTD(prevMonthly,currMonthly);
+				prevMonthly = loadToDB(currMonthly);
+				if (prevMonthly != null) {
+					recordsInserted = recordsInserted + 1L;
 				}
 			}
 
@@ -151,7 +165,6 @@ public class RestClientMonthlyStock {
 		return newDataRow;
 	}
 
-
 	private MonthlyData loadToDB(MonthlyData newDataRow) {
 		try {
 
@@ -165,16 +178,22 @@ public class RestClientMonthlyStock {
 	}
 
 	private MetaData getStockMeta(JSONObject jsonObj) {
-		MetaData metaData = new MetaData();
+		MetaData metaData = null;
 		Iterator<?> keys = jsonObj.keys();
+		String seriesName = null;
 		while (keys.hasNext()) {
 			String metaDataKey = (String) keys.next();
 			if (metaDataKey.contains("Meta Data")) {
+				metaData = new MetaData();
 				JSONObject dataObjList = (JSONObject) jsonObj.get(metaDataKey);
 				loopThruMetaKeys(dataObjList, metaData);
-			} else {
-				metaData.setSmdDataType(metaDataKey);
 			}
+			if (metaDataKey.contains("Series")) {
+				seriesName = metaDataKey;				
+			}
+		}
+		if (metaData != null && seriesName != null) {
+			metaData.setSmdDataType(seriesName);
 		}
 
 		return metaData;
@@ -188,7 +207,6 @@ public class RestClientMonthlyStock {
 				String stockName = (String) dataObjList.get(metaDataKey);
 				metaData.setSmdStockName(stockName.substring(stockName.lastIndexOf(":") + 1));
 			}
-
 			if (metaDataKey.contains("Last Refreshed")) {
 				metaData.setSmdLastUpdated(LocalDate.parse((String) dataObjList.get(metaDataKey)));
 			}
